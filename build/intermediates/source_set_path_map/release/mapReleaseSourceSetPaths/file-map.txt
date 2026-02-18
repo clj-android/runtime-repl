@@ -1,0 +1,7 @@
+org.clojure_android.runtime.repl-pngs-0 /home/claude/clojure-android/runtime-repl/build/generated/res/pngs/release
+org.clojure_android.runtime.repl-resValues-1 /home/claude/clojure-android/runtime-repl/build/generated/res/resValues/release
+org.clojure_android.runtime.repl-mergeReleaseResources-2 /home/claude/clojure-android/runtime-repl/build/intermediates/incremental/release/mergeReleaseResources/merged.dir
+org.clojure_android.runtime.repl-mergeReleaseResources-3 /home/claude/clojure-android/runtime-repl/build/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+org.clojure_android.runtime.repl-release-4 /home/claude/clojure-android/runtime-repl/build/intermediates/merged_res/release/mergeReleaseResources
+org.clojure_android.runtime.repl-main-5 /home/claude/clojure-android/runtime-repl/src/main/res
+org.clojure_android.runtime.repl-release-6 /home/claude/clojure-android/runtime-repl/src/release/res

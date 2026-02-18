@@ -1,0 +1,26 @@
+<dependencies>
+  <compile
+      roots=":@@:::debug,com.jakewharton.android.repackaged:dalvik-dx:9.0.0_r3@jar,nrepl:nrepl:1.0.0@jar">
+    <dependency
+        name=":@@:::debug"
+        simpleName="org.clojure-android:runtime-repl"/>
+    <dependency
+        name="com.jakewharton.android.repackaged:dalvik-dx:9.0.0_r3@jar"
+        simpleName="com.jakewharton.android.repackaged:dalvik-dx"/>
+    <dependency
+        name="nrepl:nrepl:1.0.0@jar"
+        simpleName="nrepl:nrepl"/>
+  </compile>
+  <package
+      roots=":@@:::debug,com.jakewharton.android.repackaged:dalvik-dx:9.0.0_r3@jar,nrepl:nrepl:1.0.0@jar">
+    <dependency
+        name=":@@:::debug"
+        simpleName="org.clojure-android:runtime-repl"/>
+    <dependency
+        name="com.jakewharton.android.repackaged:dalvik-dx:9.0.0_r3@jar"
+        simpleName="com.jakewharton.android.repackaged:dalvik-dx"/>
+    <dependency
+        name="nrepl:nrepl:1.0.0@jar"
+        simpleName="nrepl:nrepl"/>
+  </package>
+</dependencies>
