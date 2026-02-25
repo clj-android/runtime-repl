@@ -1,4 +1,4 @@
-(ns clojure-android.repl.server
+(ns clj-android.repl.server
   "nREPL server for Android development.
 
   Starts an nREPL server on the device that can be connected to from a

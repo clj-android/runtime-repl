@@ -3,11 +3,11 @@ plugins {
     `maven-publish`
 }
 
-group = "org.clojure-android"
+group = "com.goodanser.clj-android"
 version = "0.1.0-SNAPSHOT"
 
 android {
-    namespace = "org.clojure_android.runtime.repl"
+    namespace = "com.goodanser.clj_android.runtime.repl"
     compileSdk = 35
 
     defaultConfig {
@@ -68,7 +68,7 @@ publishing {
             afterEvaluate {
                 from(components["release"])
             }
-            groupId = "org.clojure-android"
+            groupId = "com.goodanser.clj-android"
             artifactId = "runtime-repl"
             version = project.version.toString()
         }
