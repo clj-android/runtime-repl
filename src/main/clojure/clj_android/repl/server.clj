@@ -69,3 +69,32 @@
   ([port]
    (stop)
    (start port)))
+
+(defn port
+  "Returns the port the running nREPL server is listening on, or nil
+  if no server is running."
+  []
+  (:port @server))
+
+(defn repl-available?
+  "Returns true if AndroidDynamicClassLoader is on the classpath,
+  meaning dynamic Clojure evaluation is available (debug build).
+  When false, nREPL cannot function."
+  []
+  (try
+    (Class/forName "clojure.lang.AndroidDynamicClassLoader")
+    true
+    (catch ClassNotFoundException _
+      false)))
+
+(defn wait-for-ready
+  "Blocks until the nREPL server is running, polling every 500ms.
+  Returns true if the server became ready, false on timeout.
+  Useful for waiting on ClojureApp's auto-start thread."
+  [& {:keys [timeout-ms] :or {timeout-ms 30000}}]
+  (loop [waited 0]
+    (cond
+      (running?)       true
+      (>= waited timeout-ms) false
+      :else (do (Thread/sleep 500)
+                (recur (+ waited 500))))))
