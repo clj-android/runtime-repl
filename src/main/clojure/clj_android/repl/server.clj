@@ -4,12 +4,21 @@
   Starts an nREPL server on the device that can be connected to from a
   development machine via adb port forwarding:
     adb forward tcp:7888 tcp:7888
-    lein repl :connect 7888"
-  (:require [nrepl.server :as nrepl]))
+    lein repl :connect 7888
+
+  nREPL is loaded lazily so this namespace can be safely required in
+  release builds where nREPL classes are not packaged into the APK.")
 
 (def ^:private ^String LOG_TAG "ClojureREPL")
 
 (defonce ^:private server (atom nil))
+
+(defn- require-nrepl!
+  "Dynamically loads nrepl.server and returns the start-server fn.
+  Throws if nREPL is not on the classpath (e.g. release builds)."
+  []
+  (require 'nrepl.server)
+  (resolve 'nrepl.server/start-server))
 
 (defn start
   "Starts an nREPL server on the given port (default 7888).
@@ -26,7 +35,8 @@
        (android.util.Log/i LOG_TAG
                            (str "Starting nREPL server on port " port "..."))
        (try
-         (let [s (nrepl/start-server :port port)]
+         (let [start-server (require-nrepl!)
+               s (start-server :port port)]
            (reset! server s)
            (android.util.Log/i LOG_TAG
                                (str "nREPL server started successfully on port "
@@ -48,7 +58,8 @@
     (do
       (android.util.Log/i LOG_TAG (str "Stopping nREPL server: " s))
       (try
-        (nrepl/stop-server s)
+        ;; nrepl.server is already loaded if we got here (start was called)
+        ((resolve 'nrepl.server/stop-server) s)
         (catch Throwable t
           (android.util.Log/w LOG_TAG "Error stopping nREPL server" t)))
       (reset! server nil)
@@ -77,12 +88,13 @@
   (:port @server))
 
 (defn repl-available?
-  "Returns true if AndroidDynamicClassLoader is on the classpath,
-  meaning dynamic Clojure evaluation is available (debug build).
+  "Returns true if both AndroidDynamicClassLoader and nREPL are on the
+  classpath, meaning dynamic Clojure evaluation is available (debug build).
   When false, nREPL cannot function."
   []
   (try
     (Class/forName "clojure.lang.AndroidDynamicClassLoader")
+    (Class/forName "nrepl.server__init")
     true
     (catch ClassNotFoundException _
       false)))

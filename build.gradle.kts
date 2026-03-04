@@ -39,10 +39,9 @@ dependencies {
     // nREPL server
     // nREPL 1.0.0: last version before Unix domain socket support (nrepl.socket)
     // which requires java.net.UnixDomainSocketAddress (JDK 16+, not available on Android)
-    // api (not implementation) because clj-android.repl.server's ns form requires
-    // nrepl.server, so consumers that AOT-compile Clojure code depending on it
-    // need nrepl on their compile classpath.
-    api("nrepl:nrepl:1.0.0")
+    // implementation (not api) — clj-android.repl.server loads nREPL lazily via
+    // dynamic require, so consumers don't need nrepl on their compile classpath.
+    implementation("nrepl:nrepl:1.0.0")
 }
 
 // When consumed via includeBuild(), raw project configurations are exposed
