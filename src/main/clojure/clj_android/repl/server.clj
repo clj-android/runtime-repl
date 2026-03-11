@@ -88,14 +88,19 @@
   (:port @server))
 
 (defn repl-available?
-  "Returns true if both AndroidDynamicClassLoader and nREPL are on the
-  classpath, meaning dynamic Clojure evaluation is available (debug build).
-  When false, nREPL cannot function."
+  "Returns true if AndroidDynamicClassLoader is present and the nREPL
+  infrastructure (runtime-repl module) is bundled in the APK.
+
+  Uses a resource-based check for the nREPL bundle rather than
+  Class/forName on a compiled namespace class, because Android ART can
+  throw ClassNotFoundException for concurrent class loads — e.g. when
+  the autoStartNrepl daemon thread is loading nrepl.server at the same
+  time this function runs."
   []
   (try
     (Class/forName "clojure.lang.AndroidDynamicClassLoader")
-    (Class/forName "nrepl.server__init")
-    true
+    (some? (.getResource (.getClassLoader (class repl-available?))
+                         "nrepl/server.clj"))
     (catch ClassNotFoundException _
       false)))
 
